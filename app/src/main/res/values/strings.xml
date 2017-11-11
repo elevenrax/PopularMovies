@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">PopularMovies</string>
+
+    <!--Menu Items-->
+    <string name="action_sort_most_popular">most popular</string>
+    <string name="action_sort_top_rated">top rated</string>
+
 </resources>

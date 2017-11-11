@@ -55,3 +55,6 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
+
+# API Keys
+app/src/main/java/elevenrax/com/popularmovies/APIKey.java
