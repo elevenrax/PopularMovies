@@ -9,12 +9,15 @@ import android.graphics.Bitmap;
 public class Movie {
 
     private String mTitle;
-    private Bitmap mPoster;
+    private String mPoster;
     private String mSynopsis;
     private String mUserRating;
     private String mReleaseDate;
+    final private static String BASE_IMG_URL = "http://image.tmdb.org/t/p/";
+    final private static String SMALL = "w342/";
+    final private static String LARGE = "w780/";
 
-    public Movie(String title, Bitmap poster, String synopsis, String userRating, String releaseDate) {
+    public Movie(String title, String poster, String synopsis, String userRating, String releaseDate) {
         this.mTitle = title;
         this.mPoster = poster;
         this.mSynopsis = synopsis;
@@ -30,11 +33,15 @@ public class Movie {
         this.mTitle = mTitle;
     }
 
-    public Bitmap getPoster() {
-        return mPoster;
+    public String getSmallPoster() {
+        return BASE_IMG_URL + SMALL + mPoster;
     }
 
-    public void setPoster(Bitmap mPoster) {
+    public String getLargePoster() {
+        return BASE_IMG_URL + LARGE + mPoster;
+    }
+
+    public void setPoster(String mPoster) {
         this.mPoster = mPoster;
     }
 
@@ -60,5 +67,10 @@ public class Movie {
 
     public void setReleaseDate(String mReleaseDate) {
         this.mReleaseDate = mReleaseDate;
+    }
+
+    @Override
+    public String toString() {
+        return mTitle + ", " + mPoster + ", " + mSynopsis + ", " + mUserRating + ", " + mReleaseDate;
     }
 }
