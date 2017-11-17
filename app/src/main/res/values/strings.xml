@@ -6,4 +6,8 @@
     <string name="action_sort_most_popular">Most Popular</string>
     <string name="action_sort_top_rated">Top Rated</string>
 
+
+    <!-- Detail View -->
+    <string name="user_rating">User Rating:</string>
+    <string name="release_date">Release Date:</string>
 </resources>

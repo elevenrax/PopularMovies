@@ -1,6 +1,9 @@
 package elevenrax.com.popularmovies;
 
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +16,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,8 +77,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     @Override
     public void onClick(Movie movie) {
-        // TODO Handle click from ItemView from RV
-        Toast.makeText(this, "you clicked " + movie.getTitle(), Toast.LENGTH_SHORT).show();
+        Intent detailViewIntent = new Intent(MainActivity.this, DetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("movie", movie);
+        detailViewIntent.putExtras(bundle);
+
+        startActivity(detailViewIntent);
     }
 
 
@@ -151,19 +161,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                     String userRating = movie.getString("vote_average");
                     String releaseDate = movie.getString("release_date");
 
-                    movieList.add( new Movie(title, poster, synopsis, userRating, releaseDate) );
+                    Movie mov = new Movie(title, poster, synopsis, userRating, releaseDate);
+                    movieList.add( mov );
+
                 } catch (JSONException ex) {
                     ex.printStackTrace();
                 }
             }
 
-            for (Movie m : movieList) {
-                Log.v("Mov", m.toString());
-            }
-
             mMovieAdapter.setMovieData(movieList);
         }
-
     }
 
 }

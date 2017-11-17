@@ -1,18 +1,19 @@
 package elevenrax.com.popularmovies;
 
-import android.graphics.Bitmap;
+import java.io.Serializable;
 
 /**
  * Created by nathanlakes on 11/11/17.
  */
 
-public class Movie {
+public class Movie implements Serializable {
 
     private String mTitle;
     private String mPoster;
     private String mSynopsis;
     private String mUserRating;
     private String mReleaseDate;
+
     final private static String BASE_IMG_URL = "http://image.tmdb.org/t/p/";
     final private static String SMALL = "w342/";
     final private static String LARGE = "w780/";
