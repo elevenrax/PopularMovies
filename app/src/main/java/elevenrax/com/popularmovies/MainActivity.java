@@ -1,9 +1,12 @@
 package elevenrax.com.popularmovies;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -67,11 +70,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     private void loadMovieData(Filter sortOption) {
-        if (sortOption == Filter.POPULAR) {
-            new FetchMoviesTask().execute("popular");
+        if (haveInternetConnection()) {
+            if (sortOption == Filter.POPULAR) {
+                new FetchMoviesTask().execute("popular");
+            }
+            else if (sortOption == Filter.TOP_RATED) {
+                new FetchMoviesTask().execute("top_rated");
+            }
         }
-        else if (sortOption == Filter.TOP_RATED) {
-            new FetchMoviesTask().execute("top_rated");
+        else {
+            Toast.makeText(this, "No Internet. Try again.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -171,6 +179,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
             mMovieAdapter.setMovieData(movieList);
         }
+    }
+
+    private boolean haveInternetConnection() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
     }
 
 }
