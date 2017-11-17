@@ -1,12 +1,15 @@
 package elevenrax.com.popularmovies;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by nathanlakes on 11/11/17.
+ * Make Parcelable per preferred Android approach
+ * https://guides.codepath.com/android/using-parcelable
  */
 
-public class Movie implements Serializable {
+public class Movie implements Parcelable {
 
     private String mTitle;
     private String mPoster;
@@ -24,6 +27,41 @@ public class Movie implements Serializable {
         this.mSynopsis = synopsis;
         this.mUserRating = userRating;
         this.mReleaseDate = releaseDate;
+    }
+
+
+    protected Movie(Parcel in) {
+        mTitle = in.readString();
+        mPoster = in.readString();
+        mSynopsis = in.readString();
+        mUserRating = in.readString();
+        mReleaseDate = in.readString();
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(mTitle);
+        parcel.writeString(mPoster);
+        parcel.writeString(mSynopsis);
+        parcel.writeString(mUserRating);
+        parcel.writeString(mReleaseDate);
     }
 
     public String getTitle() {

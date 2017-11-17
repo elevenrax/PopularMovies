@@ -29,7 +29,7 @@ public class DetailActivity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         if (b != null) {
-            Movie m = (Movie) b.getSerializable("movie");
+            Movie m = (Movie) b.getParcelable("movie");
             mTitle.setText(m.getTitle());
             Picasso.with(this).load(m.getSmallPoster()).into(mPoster);
             mRating.setText(m.getUserRating());

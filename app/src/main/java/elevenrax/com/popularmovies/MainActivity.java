@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public void onClick(Movie movie) {
         Intent detailViewIntent = new Intent(MainActivity.this, DetailActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("movie", movie);
+        bundle.putParcelable("movie", movie);
         detailViewIntent.putExtras(bundle);
 
         startActivity(detailViewIntent);
