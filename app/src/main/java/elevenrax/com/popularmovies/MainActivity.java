@@ -72,14 +72,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private void loadMovieData(Filter sortOption) {
         if (haveInternetConnection()) {
             if (sortOption == Filter.POPULAR) {
-                new FetchMoviesTask().execute("popular");
+                mLoadingIndicator.setVisibility(View.VISIBLE);
+                new FetchMoviesTask(this, new FetchMovieTaskCompleteListener()).execute("popular");
             }
             else if (sortOption == Filter.TOP_RATED) {
-                new FetchMoviesTask().execute("top_rated");
+                mLoadingIndicator.setVisibility(View.VISIBLE);
+                new FetchMoviesTask(this, new FetchMovieTaskCompleteListener()).execute("top_rated");
             }
         }
         else {
-            Toast.makeText(this, "No Internet. Try again.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No Internet. Please try again.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -119,65 +121,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
     }
 
-    // Task to get movies
-    public class FetchMoviesTask extends AsyncTask<String, Void, JSONArray> {
+    public class FetchMovieTaskCompleteListener implements AsyncTaskCompleteListener<List<Movie>> {
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mLoadingIndicator.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected JSONArray doInBackground(String... params) {
-            // Sort option not specified
-            if(params.length == 0) {
-                return null;
-            }
-
-            String sort = params[0];
-            URL movieRequest = NetworkUtils.buildUrl(sort);
-            Log.v(TAG, "I build: " + movieRequest.toString());
-
-            try {
-                String jsonMovieResponse = NetworkUtils
-                        .getResponseFromHttpUrl(movieRequest);
-
-                JSONObject response = new JSONObject(jsonMovieResponse);
-                JSONArray movies = response.getJSONArray("results");
-
-                return movies;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(JSONArray movieArray) {
+        public void onTaskComplete(List<Movie> result) {
             mLoadingIndicator.setVisibility(View.INVISIBLE);
-            List<Movie> movieList = new ArrayList<>();
-
-            for (int i=0; i < movieArray.length(); i++) {
-                try {
-                    JSONObject movie = movieArray.getJSONObject(i);
-                    Log.v(TAG, movie.toString());
-
-                    String title = movie.getString("title");
-                    String poster = movie.getString("poster_path");
-                    String synopsis = movie.getString("overview");
-                    String userRating = movie.getString("vote_average");
-                    String releaseDate = movie.getString("release_date");
-
-                    Movie mov = new Movie(title, poster, synopsis, userRating, releaseDate);
-                    movieList.add( mov );
-
-                } catch (JSONException ex) {
-                    ex.printStackTrace();
-                }
-            }
-
-            mMovieAdapter.setMovieData(movieList);
+            mMovieAdapter.setMovieData(result);
         }
     }
 
