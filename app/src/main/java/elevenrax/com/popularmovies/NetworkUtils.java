@@ -22,7 +22,8 @@ public class NetworkUtils {
             "http://api.themoviedb.org/3/movie";
 
     // TODO - Put your API Key here
-    private static final String KEY = APIKey.KEY;
+    // Add value in gradle.properties. Add entry `API_KEY="your_key"`
+    private static final String KEY = BuildConfig.API_KEY;
 
 
     public static URL buildUrl(String sortOption) {

@@ -2,8 +2,6 @@ package elevenrax.com.popularmovies;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.view.View;
 
 import org.json.JSONArray;
 import org.json.JSONException;
